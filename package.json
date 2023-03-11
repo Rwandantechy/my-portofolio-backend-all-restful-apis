@@ -1,0 +1,36 @@
+{
+  "name": "my-brand-rest-api",
+  "version": "1.0.0",
+  "description": "this is my brand rest api that i will use to connect to the database ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rwandantechy/MY-BRAND-REST-API.git"
+  },
+  "author": "rwandantechy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rwandantechy/MY-BRAND-REST-API/issues"
+  },
+  "homepage": "https://github.com/Rwandantechy/MY-BRAND-REST-API#readme",
+  "devDependencies": {
+    "eslint": "^8.35.0",
+    "prettier": "^2.8.4"
+  },
+  "dependencies": {
+    "bcrypt-nodejs": "^0.0.3",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-validator": "^6.15.0",
+    "joi": "^17.8.3",
+    "mongoose": "^7.0.1",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.1",
+    "nodemon": "^2.0.21"
+  }
+}

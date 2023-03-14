@@ -5,9 +5,10 @@ const router = express.Router();
 
 // Retrieve all messages
 router.get("/messages", messagesController.getAllMessages);
-
-// Create a new messsage
-router.post("/messages/create", messagesController.createMessage);
+//by id 
+router.get("/messages/:id", messagesController.getMessageByItsId);
+// Create a new messsage   getMessageByItsId,
+router.post("/messages/create", messagesController.createNewMessage);
 // Delete a message
 router.delete("/messages/delete/:id", messagesController.deleteMessage);
 

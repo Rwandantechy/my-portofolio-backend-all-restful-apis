@@ -1,63 +1,59 @@
+// 
 const Comment = require("../Models/Comments");
 const Joi = require("joi");
 
-// Create a comment ---Ideally when a user sends one
-exports.createComment = async (req, res, next) => {
-  try {
-    const { error } = validateComment(req.body);
-    if (error) {
-      return res.status(400).send(error.details[0].message);
-    }
-
-    const comment = new Comment({
-      blog: req.params.blogId,
-      commentBody: req.body.commentBody,
-    });
-
-    const savedComment = await comment.save();
-
-    res.status(201).json(savedComment);
-  } catch (err) {
-    next(err);
-  }
+const getAllComments = async (req, res) => {
+  const comments = await Comment.find();
+  res.send(comments);
 };
 
-// Get all comments for a blog
-exports.getComments = async (req, res, next) => {
-  try {
-    const comments = await Comment.find({ blog: req.params.blogId });
-
-    res.status(200).json(comments);
-  } catch (err) {
-    next(err);
-  }
+const getCommentByItsId = async (req, res) => {
+  const comment = await Comment.findById(req.params.id);
+  if (!comment)
+    return res
+      .status(404)
+      .send(
+        "Oops You  don't have the comment yet"
+      );
+  res.send(comment);
 };
 
-// Delete a comment
-exports.deleteComment = async (req, res, next) => {
-  try {
-    const comment = await Comment.findOne({
-      _id: req.params.commentId,
-      blog: req.params.blogId,
-    });
+const createNewComment = async (req, res) => {
+  const { error } = validateComment(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
 
-    if (!comment) {
-      return res.status(404).send("Comment not found");
-    }
+  const comment = new Comment({
+    commentorName: req.body.commentorName,
+    commentorEmail: req.body.commentorEmail,
+    blog: req.body.blog,
+    commentBody: req.body.commentBody,
+  });
 
-    await comment.remove();
-
-    res.status(200).send("Comment deleted successfully");
-  } catch (err) {
-    next(err);
-  }
+  await comment.save();
+  res.send(comment);
 };
 
-// Joi validation schema for comments
+
+const deleteComment = async (req, res) => {
+  const comment = await Comment.findByIdAndRemove(req.params.id);
+  if (!comment)
+    return res.status(404).send("Oops comment was not found.");
+  res.send(comment);
+};
+
 function validateComment(comment) {
   const schema = Joi.object({
-    commentBody: Joi.string().min(5).max(2000).required(),
+    commentorName: Joi.string().min(2).max(255).required(),
+    commentorEmail: Joi.string().min(10).max(300).required(),
+    blog: Joi.string().min(5).max(200).required(),
+    commentBody: Joi.string().min(10).max(2500).required(),
   });
 
   return schema.validate(comment);
 }
+module.exports = {
+  getAllComments,
+  getCommentByItsId,
+  deleteComment,
+  createNewComment,
+};

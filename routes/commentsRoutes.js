@@ -2,15 +2,14 @@ const express = require("express");
 const router = express.Router();
 const commentController = require("../Controllers/commentsController");
 
-// POST /blog/:blogId/comments
-router.post("/blog/create/:blogId/comments", commentController.createComment);
+// GET  all comments 
+router.get("/comments/", commentController.getAllComments);
+// GET comments BY ID
+router.get("/comments/:id", commentController.getCommentByItsId);
 
-// GET /blogs/:blogId/comments
-router.get("/blog/:blogId/comments", commentController.getComments);
-
-// DELETE /blogs/:blogId/comments/:commentId
+// DELETE  comments/:commentId
 router.delete(
-  "/blog/:blogId/comments/:commentId",
+  "/comments/:id",
   commentController.deleteComment
 );
 
